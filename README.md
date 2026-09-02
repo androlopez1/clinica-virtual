@@ -147,3 +147,4 @@ curl http://localhost:8000/health
 ## 🗒️ Historial de avances
 
 - **2026-09-02**: Revisión inicial del código existente. Se detecta que el proyecto ya está más allá de Fase 1 (tiene WhatsApp + memoria por número). Se crea este README para mantener contexto entre sesiones. Usuario confirma que Twilio ya está configurado.
+- **2026-09-02**: Repo publicado en GitHub: https://github.com/androlopez1/clinica-virtual (commit inicial `3a98183`). Se instaló y autenticó `gh` CLI en la VM (usuario `androlopez1`) para permitir push por HTTPS. `.env` verificado como correctamente ignorado antes del push.

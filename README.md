@@ -111,8 +111,8 @@ clinica-virtual/
 
 ## 🔍 Hallazgos y pendientes técnicos
 
-1. **Modelo de Claude a confirmar**: `app/claude.py` usa `claude-sonnet-4-6`. Verificar el ID correcto disponible antes de producción.
-2. **Inconsistencia de puerto**: `test_chat.sh` apunta a `localhost:8000`; Flask por defecto corre en `5000`. Confirmar puerto real de ejecución.
+1. ~~**Modelo de Claude a confirmar**~~ ✅ Resuelto: `app/claude.py` ahora usa `claude-sonnet-5` (sucesor de `claude-sonnet-4-6`, más económico: $2/$10 por 1M tokens vs $3/$15). Se agregó `thinking={"type": "disabled"}` porque Sonnet 5 corre en modo adaptive por defecto si no se especifica, y este chat no usa herramientas ni necesita razonamiento extendido. También se cambió la extracción de la respuesta para iterar los bloques de contenido en vez de asumir `content[0]` (evita romperse si el primer bloque no es texto).
+2. **Inconsistencia de puerto**: `test_chat.sh` apunta a `localhost:8000`; Flask por defecto corre en `5000`. Mitigado en la sección "Cómo correr y probar" (usar siempre `--port 8000` explícito), pendiente decidir si se fija en código.
 3. **Memoria conversacional volátil**: el diccionario `conversations` en [app/main.py](app/main.py) vive en RAM del proceso — se pierde al reiniciar. Aceptable para pruebas, no para producción (ver Fase 3).
 4. **Integración real con Twilio pendiente**: el endpoint `/whatsapp` existe y responde en formato TwiML, pero falta conectar el número/sandbox de Twilio para que llegue tráfico real.
 5. **Framework**: decidir si se mantiene Flask o se migra a FastAPI (el plan original lo prefería).
@@ -148,3 +148,4 @@ curl http://localhost:8000/health
 
 - **2026-09-02**: Revisión inicial del código existente. Se detecta que el proyecto ya está más allá de Fase 1 (tiene WhatsApp + memoria por número). Se crea este README para mantener contexto entre sesiones. Usuario confirma que Twilio ya está configurado.
 - **2026-09-02**: Repo publicado en GitHub: https://github.com/androlopez1/clinica-virtual (commit inicial `3a98183`). Se instaló y autenticó `gh` CLI en la VM (usuario `androlopez1`) para permitir push por HTTPS. `.env` verificado como correctamente ignorado antes del push.
+- **2026-09-02**: Modelo actualizado a `claude-sonnet-5` en [app/claude.py](app/claude.py) y corregida la extracción de la respuesta (iterar bloques en vez de `content[0]`). Pendiente commitear y push.
